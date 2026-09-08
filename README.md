@@ -41,14 +41,14 @@ row is a combination of n teachers, largest overlap first, with two counts:
 The same tables are printed twice: over all data sources, and constrained to
 the OT-Agent sources.
 
-The teacher of a trajectory is read, in order, from: AgentTrove's per-row
-`original_teacher` column; the `model` column (the model id the pipeline
-recorded, e.g. `gpt-5-nano-2025-08-07`); for version-less `hosted_vllm/glm`
-rows, a generation `run_id` shared with SFT-10K (proves GLM-4.7); the repo
-name; documented `TEACHER_OVERRIDES`; else the raw model string is kept as
-the label (`hosted_vllm/glm` still says "some GLM", just not which). Only
-traces with no model value at all become `<unknown>`, which the tables
-exclude.
+The teacher is extracted per trajectory, in order: the `original_teacher`
+column (AgentTrove only); the `model` id column, normalized with
+`TEACHER_TOKENS` (spelling variants to one name, e.g. `glm47` to GLM-4.7);
+for bare `hosted_vllm/glm` rows a `run_id` shared with SFT-10K, which proves
+GLM-4.7; the repo name, same normalization; `TEACHER_OVERRIDES`. If nothing
+normalizes, the raw model id is kept as the label (`hosted_vllm/glm`: some
+GLM, version unknown); `<unknown>` only when there is no model value at all,
+and the tables exclude it.
 
 The same-source count assumes rerunning the datagen pipeline on a source
 yields tasks of similar quality, so same-source trajectories are comparable
