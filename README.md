@@ -23,8 +23,10 @@ SFT-10K tasks. A cell counts the tasks still MISSING a trace from that
 teacher, so 0 = fully covered; GLM-4.7 is 0 everywhere because SFT-10K
 itself is GLM-4.7 traces.
 
-**Teacher combinations** (questions 2-3): one table per n = 2, 3, ... Each
-row is a combination of n teachers, largest overlap first, with two counts:
+**Teacher combinations** (questions 2-3): one table per n = 2, 3, ... Every
+combination whose teachers share at least one exact task or one data source
+gets a row (nothing is cropped), sorted by exact overlap then same-source
+overlap, with two counts:
 
 - **exact task overlap**: tasks (same `instruction.md` hash) every teacher
   in the combination has a trace for.

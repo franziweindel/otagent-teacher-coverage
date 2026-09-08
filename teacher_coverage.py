@@ -327,12 +327,14 @@ def mult_rows_of(df: pd.DataFrame) -> list[list]:
     return sorted(rows, reverse=True)
 
 
-def combo_tables(ibt: pd.DataFrame, ot_only: bool = False,
-                 top: int = 12) -> dict[int, list[list]]:
-    """Per n, the teacher combinations with the largest task overlap.
+def combo_tables(ibt: pd.DataFrame,
+                 ot_only: bool = False) -> dict[int, list[list]]:
+    """Per n, every teacher combination with any overlap, largest first.
 
-    Combinations containing "<unknown>" (traces no rule could attribute to a
-    teacher) are excluded: they are not actionable. The CSV keeps them.
+    Combinations containing "<unknown>" (traces with no model value at all)
+    are excluded. Nothing else is cropped: a row appears when the teachers
+    share at least one exact task OR at least one data source, sorted by
+    exact overlap, then same-source overlap.
 
     Row = one combination of n teachers, counted twice:
     - exact task overlap: tasks (same instruction.md hash) every teacher in
@@ -354,42 +356,53 @@ def combo_tables(ibt: pd.DataFrame, ot_only: bool = False,
         ot = set(DATASOURCE_TOKENS)
         df = df[df["source"].isin(ot)]
 
-    # strict: superset counting via the exact sets present
+    # exact overlaps: superset counting via the exact sets present
     exact = df.groupby("teachers")["hash"].size()
-    strict: dict[int, dict[tuple, int]] = {}
+    strict: dict[int, dict[tuple, int]] = {n: {} for n in range(2, 8)}
     for tstr, c in exact.items():
         members = sorted(m for m in tstr.split(";") if m != "<unknown>")
-        for n in range(2, len(members) + 1):
-            cnt = strict.setdefault(n, {})
+        for n in range(2, min(len(members), 7) + 1):
+            cnt = strict[n]
             for sub in combinations(members, n):
                 cnt[sub] = cnt.get(sub, 0) + int(c)
 
-    # relaxed: per (teacher, source) distinct-task counts, source = partition
+    # per (teacher, source) distinct-task counts, source = partition
     ex = (df[df["source"] != ""]
           .assign(teacher=df["teachers"].str.split(";"))
           .explode("teacher"))
+    ex = ex[ex["teacher"] != "<unknown>"]
     per_ts = ex.groupby(["teacher", "source"])["hash"].size()
+    src_teachers = ex.groupby("source")["teacher"].apply(
+        lambda t: tuple(sorted(set(t))))
 
-    def relaxed(combo: tuple) -> str:
-        mins = {}
+    def relaxed(combo: tuple) -> tuple[int, str]:
         counts = [per_ts.get(t, pd.Series(dtype=int)) for t in combo]
         shared = set.intersection(*(set(c.index) for c in counts))             if counts else set()
-        for src in shared:
-            mins[src] = min(int(c[src]) for c in counts)
+        mins = {src: min(int(c[src]) for c in counts) for src in shared}
         if not mins:
-            return "0"
+            return 0, "0"
         total = sum(mins.values())
         tops = sorted(mins.items(), key=lambda kv: -kv[1])[:3]
         more = len(mins) - len(tops)
-        inner = "; ".join(f"{k} {v:,}" for k, v in tops) + (
-            f"; +{more} more" if more > 0 else "")
-        return f"{total:,} ({inner})"
+        return total, f"{total:,} (" + "; ".join(
+            f"{k} {v:,}" for k, v in tops) + (
+            f"; +{more} more" if more > 0 else "") + ")"
 
     out: dict[int, list[list]] = {}
-    for n, cnt in sorted(strict.items()):
-        rows = sorted(cnt.items(), key=lambda kv: -kv[1])[:top]
-        out[n] = [[";".join(combo), f"{c:,}", relaxed(combo)]
-                  for combo, c in rows]
+    for n in range(2, 8):
+        cands = set(strict[n])
+        for ts in src_teachers:                # sharing a source is enough
+            if len(ts) >= n:
+                cands.update(combinations(ts, n))
+        scored = []
+        for combo in cands:
+            e = strict[n].get(combo, 0)
+            total, rel = relaxed(combo)
+            if e or total:
+                scored.append((e, total, [";".join(combo), f"{e:,}", rel]))
+        if scored:
+            out[n] = [row for _, _, row in
+                      sorted(scored, key=lambda x: (-x[0], -x[1]))]
     return out
 
 
