@@ -45,9 +45,10 @@ The teacher of a trajectory is read, in order, from: AgentTrove's per-row
 `original_teacher` column; the `model` column (the model id the pipeline
 recorded, e.g. `gpt-5-nano-2025-08-07`); for version-less `hosted_vllm/glm`
 rows, a generation `run_id` shared with SFT-10K (proves GLM-4.7); the repo
-name; documented `TEACHER_OVERRIDES`. Traces where all of that fails are
-excluded from the tables but kept as `<unknown>` in
-`sweep/instructions_by_teacher.csv`.
+name; documented `TEACHER_OVERRIDES`; else the raw model string is kept as
+the label (`hosted_vllm/glm` still says "some GLM", just not which). Only
+traces with no model value at all become `<unknown>`, which the tables
+exclude.
 
 The same-source count assumes rerunning the datagen pipeline on a source
 yields tasks of similar quality, so same-source trajectories are comparable

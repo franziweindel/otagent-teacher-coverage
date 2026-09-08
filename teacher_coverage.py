@@ -331,6 +331,9 @@ def combo_tables(ibt: pd.DataFrame, ot_only: bool = False,
                  top: int = 12) -> dict[int, list[list]]:
     """Per n, the teacher combinations with the largest task overlap.
 
+    Combinations containing "<unknown>" (traces no rule could attribute to a
+    teacher) are excluded: they are not actionable. The CSV keeps them.
+
     Row = one combination of n teachers, counted twice:
     - exact task overlap: tasks (same instruction.md hash) every teacher in
       the combination has a trace for. Extra teachers do not disqualify a
@@ -355,7 +358,7 @@ def combo_tables(ibt: pd.DataFrame, ot_only: bool = False,
     exact = df.groupby("teachers")["hash"].size()
     strict: dict[int, dict[tuple, int]] = {}
     for tstr, c in exact.items():
-        members = sorted(tstr.split(";"))
+        members = sorted(m for m in tstr.split(";") if m != "<unknown>")
         for n in range(2, len(members) + 1):
             cnt = strict.setdefault(n, {})
             for sub in combinations(members, n):
@@ -463,7 +466,8 @@ def gap_table(tasks: pd.DataFrame, teachers: dict[str, set[str]],
 def as_markdown(header: list[str], rows: list[list]) -> str:
     """Markdown table; < and > escaped so GitHub does not eat "<unknown>"."""
     def esc(v: object) -> str:
-        return str(v).replace("<", "\\<").replace(">", "\\>")
+        txt = f"{v:,}" if isinstance(v, int) else str(v)
+        return txt.replace("<", "\\<").replace(">", "\\>")
     header = [esc(h) for h in header]
     rows = [[esc(v) for v in r] for r in rows]
     out = ["| " + " | ".join(header) + " |",
@@ -604,10 +608,17 @@ def main() -> None:
             evidence = ";".join(f"{k}={v}" for k, v in resolved.items() if v)
             if evidence:
                 print(f"  {repo}: bare-GLM rows resolved {evidence}", flush=True)
-            # a human-asserted override wins; else the data; else the name
-            teacher = found["teacher"].map(
-                lambda v: canon_teacher(TEACHER_OVERRIDES.get(repo) or (
-                    v if isinstance(v, str) and v else label)))
+            # a human-asserted override wins; else the data; else the name;
+            # else the raw model string (hosted_vllm/glm still says "a GLM")
+            models = (found["model"] if "model" in found.columns
+                      else pd.Series(pd.NA, index=found.index))
+            teacher = pd.Series(
+                [canon_teacher(TEACHER_OVERRIDES.get(repo) or (
+                    v if isinstance(v, str) and v else
+                    label if label != "<unknown>" else
+                    m if isinstance(m, str) and m else "<unknown>"))
+                 for v, m in zip(found["teacher"], models)],
+                index=found.index)
             prefixes = (found["source_prefix"]
                         if "source_prefix" in found.columns
                         else pd.Series(pd.NA, index=found.index))
@@ -645,7 +656,8 @@ def main() -> None:
     print(f"wrote {args.cache / 'teacher_coverage.csv'}")
     print(f"wrote {args.cache / 'sweep' / 'sweep_status.csv'}")
 
-    all_teachers = sorted({t for s in teachers.values() for t in s})
+    all_teachers = sorted({t for s in teachers.values() for t in s}
+                          - {"<unknown>"})
     header = ["data source", "tasks", *all_teachers]
     gap_rows = gap_table(tasks, teachers, all_teachers)
     print_table("GENERATION GAP: tasks still needing a trajectory",
