@@ -1,6 +1,6 @@
 # Generation gap: SFT-10K tasks still needing a trajectory
 
-| data source | tasks | <unknown> | GLM-4.6 | GLM-4.7 | GLM-5.1 | GLM-5.x | GPT-5-nano |
+| data source | tasks | \<unknown\> | GLM-4.6 | GLM-4.7 | GLM-5.1 | GLM-5.x | GPT-5-nano |
 |---|---|---|---|---|---|---|---|
 | issue | 1,963 | 1,511 | 1,084 | 0 | 1,963 | 1,963 | 1,963 |
 | superuser | 2,020 | 1,999 | 1,952 | 0 | 2,020 | 2,020 | 1,914 |

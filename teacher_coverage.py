@@ -461,6 +461,11 @@ def gap_table(tasks: pd.DataFrame, teachers: dict[str, set[str]],
 
 
 def as_markdown(header: list[str], rows: list[list]) -> str:
+    """Markdown table; < and > escaped so GitHub does not eat "<unknown>"."""
+    def esc(v: object) -> str:
+        return str(v).replace("<", "\\<").replace(">", "\\>")
+    header = [esc(h) for h in header]
+    rows = [[esc(v) for v in r] for r in rows]
     out = ["| " + " | ".join(header) + " |",
            "|" + "---|" * len(header)]
     for r in rows:

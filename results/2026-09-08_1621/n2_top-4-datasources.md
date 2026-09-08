@@ -7,10 +7,10 @@
 | GLM-4.6;GPT-5-nano | 13,867 | 14,266 (swesmith 10,005; superuser 4,018; tezos 243) |
 | GLM-5.0;GLM-5.x | 8,011 | 8,011 (swesmith 8,011) |
 | GLM-4.7;GLM-5.x | 3,970 | 21,819 (swesmith 11,998; issue 6,481; superuser 3,340) |
-| <unknown>;GLM-4.7 | 3,516 | 39,799 (swesmith 36,721; tezos 1,529; superuser 987; +1 more) |
+| \<unknown\>;GLM-4.7 | 3,516 | 39,799 (swesmith 36,721; tezos 1,529; superuser 987; +1 more) |
 | GLM-4.7;Kimi-2.5 | 3,282 | 19,446 (swesmith 10,827; tezos 8,619) |
 | GPT-5-nano;Kimi K2.0 Thinking | 3,019 | 3,019 (swesmith 3,019) |
 | GLM-4.6;Kimi K2.0 Thinking | 2,981 | 3,019 (swesmith 3,019) |
 | GLM-4.7;Kimi K2.0 Thinking | 2,750 | 3,019 (swesmith 3,019) |
-| <unknown>;GLM-4.6 | 2,244 | 13,265 (swesmith 10,187; tezos 1,529; superuser 987; +1 more) |
+| \<unknown\>;GLM-4.6 | 2,244 | 13,265 (swesmith 10,187; tezos 1,529; superuser 987; +1 more) |
 | GLM-4.7;Kimi-2.6 | 1,974 | 3,304 (swesmith 3,304) |
