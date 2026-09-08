@@ -39,9 +39,20 @@ row is a combination of n teachers, largest overlap first, with two counts:
   prefix (`tezos-0561` -> `tezos`), else the repo name.
 
 The same tables are printed twice: over all data sources, and constrained to
-the OT-Agent sources. The count by data source assumes assumes rerunning the datagen pipeline on same
-source yields tasks of similar quality, so same-source trajectories are
-comparable training data without being identical. Also consider this because exact task overlap is low (see below). 
+the OT-Agent sources.
+
+The teacher of a trajectory is read, in order, from: AgentTrove's per-row
+`original_teacher` column; the `model` column (the model id the pipeline
+recorded, e.g. `gpt-5-nano-2025-08-07`); for version-less `hosted_vllm/glm`
+rows, a generation `run_id` shared with SFT-10K (proves GLM-4.7); the repo
+name; documented `TEACHER_OVERRIDES`. Traces where all of that fails are
+excluded from the tables but kept as `<unknown>` in
+`sweep/instructions_by_teacher.csv`.
+
+The same-source count assumes rerunning the datagen pipeline on a source
+yields tasks of similar quality, so same-source trajectories are comparable
+training data without being identical. This matters because the exact task
+overlap is low (see below).
 
 ### Why exact overlap is so low
 
