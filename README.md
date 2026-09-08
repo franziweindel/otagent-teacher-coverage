@@ -43,12 +43,12 @@ the OT-Agent sources.
 
 The teacher is extracted per trajectory, in order: the `original_teacher`
 column (AgentTrove only); the `model` id column, normalized with
-`TEACHER_TOKENS` (spelling variants to one name, e.g. `glm47` to GLM-4.7);
-for bare `hosted_vllm/glm` rows a `run_id` shared with SFT-10K, which proves
-GLM-4.7; the repo name, same normalization; `TEACHER_OVERRIDES`. If nothing
-normalizes, the raw model id is kept as the label (`hosted_vllm/glm`: some
-GLM, version unknown); `<unknown>` only when there is no model value at all,
-and the tables exclude it.
+`TEACHER_TOKENS` (spelling variants to one name, e.g. `glm47` to GLM-4.7;
+full list in `find_candidate_repos.py`); the repo name, also normalized with
+`TEACHER_TOKENS`. If no normalization works, the bare model id column is
+kept as the label, i.e. `hosted_vllm/glm` (some GLM, version unknown). Two
+exceptions pin such bare rows to GLM-4.7: a `run_id` shared with SFT-10K,
+and the documented `TEACHER_OVERRIDES`.
 
 The same-source count assumes rerunning the datagen pipeline on a source
 yields tasks of similar quality, so same-source trajectories are comparable
