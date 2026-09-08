@@ -48,7 +48,8 @@ from hash_sft10k_tasks import DEFAULT_CACHE, hashes_path  # noqa: E402
 #: Accounts publishing OT-Agent datagen output.  SankalpKJ builds the source
 #: *task* sets, whose slugs appear inside downstream trace-repo names.
 ORGS = ["DCAgent", "DCAgent2", "penfever", "mlfoundations-dev", "open-thoughts",
-        "marin-community", "laion", "SankalpKJ", "open-athena"]
+        "marin-community", "laion", "SankalpKJ", "open-athena", "EtashGuha",
+        "RZ412", "marianna13"]
 
 #: Repos to sweep regardless of what their name says. The name rules key on a
 #: task family, which the big concatenated dumps do not mention: AgentTrove
@@ -116,6 +117,9 @@ TEACHER_TOKENS = [
     ("GPT-5-nano", ["gpt-5-nano", "gpt5nano", "gpt5-nano", "gpt_5_nano"]),
     ("GPT-5-mini", ["gpt-5-mini", "gpt5mini", "gpt5-mini"]),
     ("GPT-OSS", ["gptoss", "gpt-oss"]),
+    ("Qwen3-Coder-480B", ["qwen3-coder-480b", "qwen3_coder_480b",
+                          "480b-a35b"]),
+    ("Qwen3-Coder-30B", ["qwen3-coder-30b", "30b-a3b"]),
     ("Qwen3", ["qwen3", "qwen-3"]),
 ]
 

@@ -155,6 +155,7 @@
 | DCAgent/g1_min_episodes_e1_gpt_long_d1_original_40k_glm47_traces_1k | GLM-4.7 | 596 |
 | DCAgent2/GLM-4.7-swesmith-sandboxes-with_tests-oracle_verified_120s-maxeps-131k | GLM-4.7 | 585 |
 | DCAgent/swesmith-glm5-awq-traces-10k-fixed | GLM-5.x | 572 |
+| marianna13/swesmith-glm5-awq-traces-10k | GLM-5.x | 572 |
 | DCAgent/e1_weighted_swesmith_50k_sandboxes_glm_4.7_traces_jupiter | GLM-4.7 | 567 |
 | DCAgent/swesmith-sandboxes-with_tests_glm_4.7_traces_jupiter | GLM-4.7 | 565 |
 | DCAgent/exp-uns-tezos-20x_glm_4.7_traces_jupiter | GLM-4.7 | 561 |
@@ -243,7 +244,7 @@
 | DCAgent/code-contests-sandboxes-traces-terminus-2_weight-decay_0.0_Qwen3-8B | Qwen3 | 0 |
 | DCAgent/code-contests-sandboxes-with-tests_10k_glm_4.7_traces_jupiter | GLM-4.7 | 0 |
 | DCAgent/code_contests-GLM-4.6-traces | GLM-4.6 | 0 |
-| DCAgent/code_contests-Qwen3-Coder-480B-traces | Qwen3 | 0 |
+| DCAgent/code_contests-Qwen3-Coder-480B-traces | Qwen3-Coder-480B | 0 |
 | DCAgent/codeforces-gptoss120b-traces | GPT-OSS | 0 |
 | DCAgent/codeforces-sandboxes-1_10k_glm_4.7_traces_jupiter | GLM-4.7 | 0 |
 | DCAgent/d1_constrain_then_harden_top4_seq_glm47_traces | GLM-4.7 | 0 |
@@ -389,7 +390,7 @@
 | DCAgent/glm46-Magicoder-Evol-Instruct-110K-sandboxes-1-traces | GLM-4.6 | 0 |
 | DCAgent/glm46-Toolscale-tasks-traces | GLM-4.6 | 0 |
 | DCAgent/glm46-bash-textbook-traces | GLM-4.6 | 0 |
-| DCAgent/gsm8k-qwen3-coder-30b-a3b-instruct-traces | Qwen3 | 0 |
+| DCAgent/gsm8k-qwen3-coder-30b-a3b-instruct-traces | Qwen3-Coder-30B | 0 |
 | DCAgent/harbor-devel-sandboxes_glm47_traces_test | GLM-4.7 | 0 |
 | DCAgent/harbor-devel-sandboxes_glm_4.6_traces_openhands | GLM-4.6 | 0 |
 | DCAgent/harbor-devel-sandboxes_glm_4.7_traces_jupiter | GLM-4.7 | 0 |
@@ -427,7 +428,7 @@
 | DCAgent/nl2bash-3k-traces | \<unknown\> | 0 |
 | DCAgent/nl2bash-GLM-4.6-traces | GLM-4.6 | 0 |
 | DCAgent/nl2bash-GLM-4.6-traces_Qwen3-8B-dev-71-tasks | GLM-4.6 | 0 |
-| DCAgent/nl2bash-Qwen3-Coder-480B-traces | Qwen3 | 0 |
+| DCAgent/nl2bash-Qwen3-Coder-480B-traces | Qwen3-Coder-480B | 0 |
 | DCAgent/nl2bash_10k_glm_4.7_traces_jupiter | GLM-4.7 | 0 |
 | DCAgent/nl2bash_gpt-5-nano-traces | GPT-5-nano | 0 |
 | DCAgent/ot3-100k-science-subset-gpt-5-nano-traces | GPT-5-nano | 0 |
@@ -488,11 +489,11 @@
 | DCAgent/taskmaster2-3k-traces | \<unknown\> | 0 |
 | DCAgent/tezos_glm5awq_traces | GLM-5.x | 0 |
 | DCAgent/tulu3-sft-personas-math-sandboxes_glm_4.7_traces_jupiter | GLM-4.7 | 0 |
-| DCAgent/wikitable_format_conversion-qwen3-coder-480b-a35b-instruct-awq-traces | Qwen3 | 0 |
+| DCAgent/wikitable_format_conversion-qwen3-coder-480b-a35b-instruct-awq-traces | Qwen3-Coder-480B | 0 |
 | DCAgent/wizardlm-orca-sandboxes_glm_4.7_traces_jupiter | GLM-4.7 | 0 |
 | DCAgent2/20260727-222003-grug-agentic-s3-step1903-grug-opencode-id-f947-traces | \<unknown\> | 0 |
-| DCAgent2/20260728-001051-qwen3-30b-a3b-thinking-2507-qwen-opencode-swebench-f9ff-traces | Qwen3 | 0 |
-| DCAgent2/20260728-001051-qwen3-30b-a3b-thinking-2507-qwen-opencode-v2-a708-traces | Qwen3 | 0 |
+| DCAgent2/20260728-001051-qwen3-30b-a3b-thinking-2507-qwen-opencode-swebench-f9ff-traces | Qwen3-Coder-30B | 0 |
+| DCAgent2/20260728-001051-qwen3-30b-a3b-thinking-2507-qwen-opencode-v2-a708-traces | Qwen3-Coder-30B | 0 |
 | DCAgent2/GLM-4.6-combined-traces | GLM-4.6 | 0 |
 | DCAgent2/GLM-4.7-SERAlike-swesmith-25k-1samples-131k-run2 | GLM-4.7 | 0 |
 | DCAgent2/GLM-4.7-SERAlike-swesmith-25k-3samples-131k | GLM-4.7 | 0 |
@@ -568,6 +569,43 @@
 | DCAgent2/swesmith-GLM-4.6-32ep-32k-v3-traces-chunk006 | GLM-4.6 | 0 |
 | DCAgent2/swesmith-GLM-4.6-32ep-32k-v3-traces-chunk008 | GLM-4.6 | 0 |
 | DCAgent2/swesmith-GLM-4.6-32ep-32k-v3-traces-chunk009 | GLM-4.6 | 0 |
+| EtashGuha/nl2bash_verified_gpt-5-nano-traces | GPT-5-nano | 0 |
+| RZ412/db-test-traces | \<unknown\> | 0 |
+| RZ412/inferredbugs-sandboxes-traces-terminus-2 | \<unknown\> | 0 |
+| RZ412/opencode_sft_traces | \<unknown\> | 0 |
+| RZ412/test_harbor_trace | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-1-answers | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-1-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-1-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-10-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-10-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-12-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-12-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-13-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-13-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-14-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-14-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-15-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-15-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-2-answers | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-2-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-2-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-3-answers | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-3-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-3-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-4-answers | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-4-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-4-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-5-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-5-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-6-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-6-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-7-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-7-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-8-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-8-summary | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-9-questions | \<unknown\> | 0 |
+| RZ412/test_harbor_trace-summarization-9-summary | \<unknown\> | 0 |
 | laion/a1-nemotron-bash-withtests-swe100-20260805-traces | \<unknown\> | 0 |
 | laion/a1-nemotron-cpp-swe100-20260805-traces | \<unknown\> | 0 |
 | laion/a1-nemotron-pytest-swe100-20260805-traces | \<unknown\> | 0 |
@@ -639,3 +677,91 @@
 
 | repo | why |
 |---|---|
+| DCAgent/bench-traces-30B_g8_pp4_tp1_r2_ep8_c32 | ValueError: no parquet files (empty or non-parquet repo) |
+| DCAgent/bench-traces-480B_g16_pp4_tp1_r4_ep8_c32-20sectimeout | ValueError: no parquet files (empty or non-parquet repo) |
+| DCAgent/exp_rpt_pymethods2test-v3_glm_4.7_traces_jupiter | ValueError: no parquet files (empty or non-parquet repo) |
+| DCAgent/g1_diverse_tezos_top4_1000_glm47_traces | ValueError: no parquet files (empty or non-parquet repo) |
+| DCAgent/nl2bash_verified_gpt-5-nano-traces | ValueError: no parquet files (empty or non-parquet repo) |
+| DCAgent/rl__24GPU_base_maxgn09__exp_rpt_pymethods2test-large__GLM-4_7-swesmith-san__40-0 | ValueError: no parquet files (empty or non-parquet repo) |
+| DCAgent2/Kimi-2.5-swesmith-sandboxes-with_tests-oracle_verified_120s-maxeps-32k | ValueError: no parquet files (empty or non-parquet repo) |
+| DCAgent2/MiniMax-M2.7-stackexchange-tezos-sandboxes-maxeps-32k-jup | ValueError: no parquet files (empty or non-parquet repo) |
+| DCAgent2/swesmith | ValueError: no parquet files (empty or non-parquet repo) |
+| laion/rl-analysis-issue-8481 | ValueError: no parquet files (empty or non-parquet repo) |
+| mlfoundations-dev/all-puzzles-sandboxes-traces-terminus-2-with-gpt-4o-mini-judgments-all | ValueError: no parquet files (empty or non-parquet repo) |
+| mlfoundations-dev/all-puzzles-sandboxes-traces-terminus-2-with-gpt-4o-mini-judgments-correct | ValueError: no parquet files (empty or non-parquet repo) |
+| mlfoundations-dev/code_contests-GLM-4.6-FP8-traces | ValueError: no parquet files (empty or non-parquet repo) |
+| mlfoundations-dev/freelancer-projects-100k-traces | ValueError: no parquet files (empty or non-parquet repo) |
+| mlfoundations-dev/swesmith-datascience-skorch-sandboxes | ValueError: no parquet files (empty or non-parquet repo) |
+| mlfoundations-dev/swesmith-sandboxes-with_tests | ValueError: no parquet files (empty or non-parquet repo) |
+| marianna13/superuser | ValueError: no task-text column in ['ANSWERS', 'CATEGORIES', 'POST', 'TOPIC_TITLE'] |
+| mlfoundations-dev/github-issues | ValueError: no task-text column in ['body', 'comments_count', 'created_at', 'issue_number', 'labels', 'repo_name', 'state', 'title', 'topic', 'updated_at', 'url', 'user_login'] |
+| DCAgent/SERAlike-swesmith-25k | ValueError: no task-text column in ['bug_label', 'path', 'source_dataset', 'task_binary'] |
+| mlfoundations-dev/pdf_science_questions_verified_r1_traces__2_24_25 | ValueError: no task-text column in ['classifier_reasoning', 'extracted_answer_choices', 'extracted_question', 'extracted_solution', 'filename', 'improved_question_solution', 'judge_correct', 'judge_reasoning', 'page_count', 'page_number', 'qa_validation_outputs', 'question_choices_solutions', 'r1_reasoning', 'r1_solution', 'success', 'url'] |
+| mlfoundations-dev/pdf_science_questions_verifiable_r1_traces__2_24_25 | ValueError: no task-text column in ['classifier_reasoning', 'extracted_answer_choices', 'extracted_question', 'extracted_solution', 'filename', 'improved_question_solution', 'page_count', 'page_number', 'qa_validation_outputs', 'question_choices_solutions', 'r1_reasoning', 'r1_solution', 'success', 'url'] |
+| mlfoundations-dev/SCP_40k_verified_traces | ValueError: no task-text column in ['domain', 'is_o1_solution_same_with_matched_solution', 'is_qwq_solution_same_with_matched_solution', 'judge_correct', 'judge_reasoning', 'matched_solution', 'o1_solution', 'problem', 'qwq_solution', 'r1_reasoning', 'r1_solution'] |
+| DCAgent/d1_trace_hints_top4_seq_sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/e1_gpt_long_sampled_psu_swesmith_31k_sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/e1_gpt_long_superuser_100k_sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/e1_weighted_issue_50k_sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/e1_weighted_superuser_50k_sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/e1_weighted_swesmith_50k_sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/e1_weighted_tezos_50k_sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-gfi-swesmith-askllm-filtered-10K | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-gfi-swesmith-embedding-mean-filtered-10K | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-gfi-swesmith-random-filtered-10K | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-gfi-swesmith-short-response-filtered-10K | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-psu-swesmith-31K | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-swd-swesmith-standard | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-swd-swesmith-wo-docker | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-syh-r2egym-swesmith-mixed | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-syh-tezos-askllm-constrained | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-syh-tezos-askllm-hardened | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-syh-tezos-stackoverflow-mixed | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-uns-tezos-10x | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-uns-tezos-128unique | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-uns-tezos-160x | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-uns-tezos-1unique | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-uns-tezos-20x | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-uns-tezos-40x | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp-uns-tezos-80x | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp_8_1_style_transfer_github_issue | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp_8_1_style_transfer_github_issue_test25 | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp_8_1_style_transfer_github_issue_test5 | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp_rle_github_issue | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp_rle_github_issue_10k | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp_rpt_issue_10k | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp_rpt_issue_25k | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/exp_usc_swesmith | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/stackexchange-superuser-sandboxes-100k | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/stackexchange-superuser-sandboxes-100k-withtests | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/stackexchange-superuser-sandboxes-25k-withtests | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/stackexchange-superuser-sandboxes-skywork-response | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/stackexchange-tezos-sandboxes-25k-withtests | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/stackexchange-tezos-sandboxes-armo-rm | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/stackexchange-tezos-sandboxes-skywork | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/stackexchange-tezos-sandboxes-skywork-response | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/swesmith-datascience-skorch-sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/swesmith-sandboxes-with_tests | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/swesmith-sandboxes-with_tests-25k | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/swesmith-sandboxes-with_tests-oracle_verified | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/swesmith-sandboxes-with_tests-oracle_verified_120s | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/swesmith_gap_sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/tezos-sandboxes-all-unique | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent2/glm-4.6-stackexchange-tezos | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent2/swesmith-sandboxes-with_tests-31k | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent2/swesmith-sandboxes-with_tests-gpt-5-mini-passed | ValueError: no task-text column in ['path', 'task_binary'] |
+| SankalpKJ/swesmith-oracle-filtered | ValueError: no task-text column in ['path', 'task_binary'] |
+| SankalpKJ/swesmith-patched | ValueError: no task-text column in ['path', 'task_binary'] |
+| mlfoundations-dev/_c_eansandboxestasksev_set_inferredbugs_sandboxes_traces_terminus_2_20251008_010358 | ValueError: no task-text column in ['path', 'task_binary'] |
+| mlfoundations-dev/stackexchange-superuser-sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| mlfoundations-dev/stackexchange-tezos-sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| mlfoundations-dev/swesmith-sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| mlfoundations-dev/swesmith_with_plain_docker-sandboxes | ValueError: no task-text column in ['path', 'task_binary'] |
+| DCAgent/a1_codereval_glm_4.7_traces | ValueError: no task-text column in [] |
+| DCAgent2/nl2bash-gpt-5-codex-traces | ValueError: no task-text column in [] |
+| RZ412/inferredbugs-10-traces | ValueError: no task-text column in [] |
+| RZ412/inferredbugs-traces-10 | ValueError: no task-text column in [] |
+| RZ412/inferredbugs-traces-sft | ValueError: no task-text column in [] |
+| laion/grug-agentic-eval-v2-traces | ValueError: no task-text column in [] |
+| mlfoundations-dev/keybert-dockerhub-sandboxes-traces-terminus-2 | ValueError: no task-text column in [] |
+| mlfoundations-dev/stackexchange-tor-sandboxes-traces-terminus-2 | ValueError: no task-text column in [] |

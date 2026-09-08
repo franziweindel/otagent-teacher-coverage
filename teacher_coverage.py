@@ -208,6 +208,8 @@ def repo_task_hashes(repo: str, parts_dir: Path | None = None) -> pd.DataFrame:
                 "model" if "model" in names else None)
             if label_col:
                 cols = cols + [label_col]
+            if teacher_col in names and "model" in names:
+                cols = cols + ["model"]
             evidence = [c for c in EVIDENCE_COLUMNS
                         if c in names and c not in cols]
             cols = cols + evidence
@@ -230,8 +232,14 @@ def repo_task_hashes(repo: str, parts_dir: Path | None = None) -> pd.DataFrame:
                 out = pd.DataFrame({"hash": text.map(text_hash)})
                 if not label_col:                 # repo names no model at all
                     out["teacher"] = pd.NA
-                elif label_col == teacher_col:    # already a teacher name
-                    out["teacher"] = df[label_col]
+                elif label_col == teacher_col:
+                    # the model id outranks the hand-typed teacher name: the
+                    # id is what the pipeline recorded (it exposed "Qwen3" as
+                    # Qwen3-Coder-480B and nano rows served by GLM)
+                    resolved = (df["model"].map(teacher_from_text)
+                                .replace("", pd.NA) if "model" in df
+                                else pd.Series(pd.NA, index=df.index))
+                    out["teacher"] = resolved.fillna(df[label_col])
                 else:                             # a model id, resolve it
                     out["teacher"] = df[label_col].map(teacher_from_text)
                 out["teacher"] = out["teacher"].replace("", pd.NA)
