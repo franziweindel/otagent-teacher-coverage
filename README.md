@@ -64,7 +64,7 @@ rerun depends on how a source writes its `instruction.md`:
 
 ## Results
 
-One directory per run, one table per file, no prose:
+One directory per run, one table per file:
 
     results/<stamp>/generation_gap.md          question 1
     results/<stamp>/n<k>.md                    k-teacher combinations, all sources
@@ -73,9 +73,9 @@ One directory per run, one table per file, no prose:
 
 `results/candidates.csv` is the latest repo listing;
 `results/candidates_swept.csv` only its `candidate=True` rows, the sweep
-worklist. Results so far are from
-public repos only: the [marin#6191](https://github.com/marin-community/marin/issues/6191)
-dumps sit in the private `open-athena` org.
+worklist. Results so far are from public repos only: the
+[marin#6191](https://github.com/marin-community/marin/issues/6191) traces are
+in the private `open-athena` org, which are not included yet as no access.
 
 ## How to run
 
