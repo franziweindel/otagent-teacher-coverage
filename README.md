@@ -71,9 +71,9 @@ One directory per run, one table per file:
     results/<stamp>/n<k>_top-4-datasources.md  same, OT-Agent sources only
     results/<stamp>/repos.md                   repos read / skipped
 
-`results/candidates.csv` is the latest repo listing;
-`results/candidates_swept.csv` only its `candidate=True` rows, the sweep
-worklist. Results so far are from public repos only: the
+`results/candidates.csv` lists every HF dataset found on the datagen
+accounts; `results/candidates_swept.csv` is the subset that was actually
+swept. Results so far are from public repos only: the
 [marin#6191](https://github.com/marin-community/marin/issues/6191) traces are
 in the private `open-athena` org, which are not included yet as no access.
 
