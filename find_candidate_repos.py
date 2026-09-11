@@ -54,7 +54,13 @@ ORGS = ["DCAgent", "DCAgent2", "penfever", "mlfoundations-dev", "open-thoughts",
 #: Repos to sweep regardless of what their name says. The name rules key on a
 #: task family, which the big concatenated dumps do not mention: AgentTrove
 #: holds traces for every family and says so nowhere in its name.
-ALWAYS_CANDIDATE = {"open-thoughts/AgentTrove"}
+#: AgentTrove: the concatenated dump, name says nothing. The three DCAgent
+#: repos are the paper's Table 6 teacher-ablation arms (pointed out by the
+#: team); their names carry neither a source nor a traces token.
+ALWAYS_CANDIDATE = {"open-thoughts/AgentTrove",
+                    "DCAgent/b1_top4_seq",
+                    "DCAgent/c1_kimi_k2.5_fixed",
+                    "DCAgent/c1_gpt53_codex_fixed"}
 
 #: Benchmarks we eval on.  A repo whose name contains one is an eval result
 #: (`<benchmark>_<student checkpoint>_<timestamp>`), not a trace repo: the
@@ -102,6 +108,7 @@ DATASOURCE_TOKENS = {
 #: GLM-5.2 are different teachers.  A bare `glm5` stays `GLM-5.x`: resolve it
 #: from the campaign, not the name.  `GLM_5_20260505` is a timestamp, not 5.2.
 TEACHER_TOKENS = [
+    ("Kimi-2.5", ["kimi-k2.5", "kimi_k2.5", "k2.5"]),
     ("Kimi K2.0 Thinking", ["kimi-k2t", "kimi-k2", "kimi_k2", "k2t", "k2-thinking"]),
     ("Kimi-2.6", ["kimi-2.6", "kimi2.6", "kimi-26"]),
     ("Kimi-2.5", ["kimi-2.5", "kimi2.5", "kimi-25"]),
@@ -114,6 +121,8 @@ TEACHER_TOKENS = [
     ("GLM-5.x", ["glm5", "glm-5", "glm_5"]),
     ("GLM-4.7", ["glm-4.7", "glm_4.7", "glm47", "glm-4_7", "glm_4_7"]),
     ("GLM-4.6", ["glm-4.6", "glm_4.6", "glm46", "glm-4_6", "glm_4_6"]),
+    ("GPT-5.3-Codex", ["gpt-5.3-codex", "gpt5.3-codex", "gpt53-codex",
+                       "gpt53_codex"]),
     ("GPT-5-nano", ["gpt-5-nano", "gpt5nano", "gpt5-nano", "gpt_5_nano"]),
     ("GPT-5-mini", ["gpt-5-mini", "gpt5mini", "gpt5-mini"]),
     ("GPT-OSS", ["gptoss", "gpt-oss"]),
@@ -174,15 +183,17 @@ _TRACES = re.compile(r"(^|[-_])traces?([-_]|$)")
 def is_candidate(repo: str, datasources: list[str], eval_benchmark: str,
                  include_traces: bool = False) -> bool:
     """Worth hash-joining: names an SFT-10K data source (or, with
-    ``include_traces``, any trace dump) and is not an eval."""
+    ``include_traces``, any trace dump or teacher name) and is not an eval."""
     if repo in ALWAYS_CANDIDATE:
         return True
     if eval_benchmark:
         return False
     if datasources:
         return True
-    return include_traces and bool(
-        _TRACES.search(repo.split("/", 1)[-1].lower()))
+    if not include_traces:
+        return False
+    name = repo.split("/", 1)[-1].lower()
+    return bool(_TRACES.search(name)) or bool(teacher_from_text(name))
 
 
 def main() -> None:

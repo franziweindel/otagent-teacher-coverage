@@ -25,20 +25,29 @@ itself is GLM-4.7 traces.
 
 **Teacher combinations** (questions 2-3): one table per n = 2, 3, ... Every
 combination whose teachers share at least one exact task or one data source
-gets a row (nothing is cropped), sorted by exact overlap then same-source
-overlap, with two counts:
+gets a row (nothing is cropped), sorted by exact tasks then same-source
+tasks, with four counts:
 
-- **exact task overlap**: tasks (same `instruction.md` hash) every teacher
-  in the combination has a trace for.
-- **same-source overlap**: tasks a comparison could use if they only need
-  to come from the same data source, not be identical. Per source, the
-  usable count is the smallest per-teacher count (if GLM-4.6 covers 5,200
-  swesmith tasks and GPT-5-nano 5,000, the pair can use 5,000); the cell
-  sums this over sources; the parenthesis lists the three sources
-  contributing most, the rest folded into `+k more`, e.g.
-  `8,400 (swesmith 5,000; nl2bash 2,400; tezos 700; +2 more)`. A task's source label
-  comes from the TaskTrove registry where it reaches, else the task-id
-  prefix (`tezos-0561` -> `tezos`), else the repo name.
+- **exact tasks**: tasks (same `instruction.md` hash) every teacher in the
+  combination has a trace for.
+- **exact trajectories**: the same tasks counted with duplicates. Per
+  shared task, the smallest per-teacher trajectory count, summed: how many
+  complete task-aligned trajectory tuples exist. Per-teacher counts are
+  over distinct conversation hashes, summed across repos, so a mirror
+  (AgentTrove holds copies of the DCAgent dumps) cannot count a trajectory
+  twice while an independent rerun does add up. A row without a
+  conversation (instruction-only repos: task sets, not trace dumps) is not
+  a trajectory and counts for nothing, teacher coverage included.
+- **same-source tasks**: tasks a comparison could use if they only need to
+  come from the same data source, not be identical. Per source, the
+  smallest per-teacher distinct-task count (if GLM-4.6 covers 5,200
+  swesmith tasks and GPT-5-nano 5,000, the pair can use 5,000), summed;
+  the parenthesis lists the three sources contributing most, the rest
+  folded into `+k more`. A task's source label comes from the TaskTrove
+  registry where it reaches, else the task-id prefix (`tezos-0561` ->
+  `tezos`), else the repo name.
+- **same-source trajectories**: the same, counting trajectories instead of
+  distinct tasks.
 
 The same tables are printed twice: over all data sources, and constrained to
 the OT-Agent sources.
@@ -76,6 +85,79 @@ rerun depends on how a source writes its `instruction.md`:
   campaign: 11 id matches, 25 title matches, 0 text matches).
 
 
+## Skip the hashing: download the cache
+
+The sweep cache is published at
+[`FWeindel/teacher-coverage-hash-cache`](https://huggingface.co/datasets/FWeindel/teacher-coverage-hash-cache)
+(hashes, ids, teacher labels and counts; no task text). With it, the report
+runs without touching any trace repo:
+
+    uv run --no-project --with huggingface_hub python cache_hub.py download --cache <dir>
+    uv run --no-project --with pandas --with pyarrow --with huggingface_hub \
+      python teacher_coverage.py --cache <dir> --cached-only
+
+`teacher_coverage.py` only fetches repos whose cache file is missing, so a
+new candidate repo costs one fetch, not a re-sweep. `cache_hub.py upload`
+pushes a refreshed cache back (owner token needed).
+
+## From a table cell to the tasks behind it
+
+`overlap_members.py` takes a row and a column of an `n<k>.md` table and
+lists what the number counts: per task its hash, source, SFT-10K id and
+TaskTrove id where registered, and per teacher the repos holding a trace.
+It recomputes the number from the cache and prints it next to the table's.
+
+    uv run --no-project --with pandas --with pyarrow --with huggingface_hub \
+      python overlap_members.py GLM-4.7 GPT-5-nano \
+      --column exact-tasks --ot-only --cache <cache>
+
+Teachers as separate arguments or comma-separated, spelled as in the table;
+`--column` is one of `exact-tasks`, `exact-trajectories`,
+`same-source-tasks`, `same-source-trajectories`; `--ot-only` picks the
+`_top-4-datasources` table. Output goes to `results/overlaps/<teachers>__
+<column>[__ot].csv`, one row per (task, teacher, repo). For the same-source
+columns, `binding=True` marks the rows of the teacher whose count is the
+per-source minimum, i.e. the rows that add up to the number. `task_id` is
+the id the repo itself gives the task (`task` column, else another id
+column, else `file#rowgroup:row`); it names a row inside that dataset only,
+the hash is the cross-dataset key. `sft10k_id` / `tasktrove_task` are set
+where the task is registered there. Runs in about 90 s on the login node.
+
+`--outcome` takes a comma list of outcome values spelled exactly as the
+cache stores them and counts only those trajectories, printing the
+filtered number next to the table's. Values: `unscored` (no result
+recorded; most of the data, all of AgentTrove), `pass` / `partial` /
+`fail` (a numeric result: >=1, between 0 and 1, 0), `error:<class>` for a
+run that ended in that exception (`error:AgentTimeoutError`,
+`error:DaytonaError`, `error:AgentEnvironmentTimeoutError`, ...). Nothing
+is grouped: whether a timed-out or unscored trajectory is useful teacher
+data is the user's call. The run's `outcomes.md` lists every value with
+its count, repos and teachers.
+
+The sweep cache (`<cache>/sweep/hashes/<repo>.parquet`) holds, per repo, one
+row per (instruction hash, task id, teacher, model, run_id, date,
+trajectory hash, outcome, reward, trace_source) with a row count `n_traj`. Text is never
+cached, only hashes. The trajectory hash is the sha1 of the whole
+conversation: trajectories are summed within and across repos, and an
+identical conversation hash is the only thing that collapses two rows, so a
+mirror's copy (AgentTrove holds the DCAgent dumps) counts once while an
+independent rerun adds up. `outcome` comes from the repo's `result`
+column: pass / partial / fail from a numeric score, `error:<class>` from an
+error name kept verbatim (`error:AgentTimeoutError`), `unscored` where
+the column is null or missing. `trace_source` is kept as the repo wrote
+it: `main` (or a dataset label, or nothing) for the run itself,
+`summarization-k-summary` / `-answers` for the agent's conversation
+segments before and after its k-th context reset; each is a row and counts
+as a trajectory of the task, `--trace-source main` counts runs only. The
+2-turn `summarization-k-questions` helper calls are dropped at fetch time:
+they start with "You are picking up work from a previous AI agent", not
+the task, and would register as tasks of their own. A repo without a `conversations` or
+`messages` column (task sets, single-response annotation dumps, eval
+outputs) is skipped, and a row whose conversation is empty is dropped
+before it is hashed: no trace, no trajectory. `results/<stamp>/outcomes.md`
+lists every outcome value with its count; the combination tables count
+every outcome.
+
 ## Results
 
 One directory per run, one table per file:
@@ -100,7 +182,9 @@ RUN="uv run --no-project --with pandas --with pyarrow --with huggingface_hub pyt
 TC=/data/cat/ws/frwe188h-otagent/OpenThoughts-Agent-trp/scripts/analysis/teacher_coverage
 
 $RUN $TC/hash_sft10k_tasks.py --workers 8          # ~1 min
-$RUN $TC/find_candidate_repos.py --all             # ~2 min; drop --all for
+$RUN $TC/find_candidate_repos.py --all             # ~2 min; --all also keeps
+                                                   #   any traces or teacher
+                                                   #   name; drop it for
                                                    #   SFT-10K sources only
 $RUN $TC/hash_tasktrove.py --workers 100           # ~10 min, one-time
 $RUN $TC/teacher_coverage.py --workers 100         # hours; resumable
