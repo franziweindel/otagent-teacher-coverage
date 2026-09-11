@@ -48,7 +48,8 @@ pretty_name: teacher-coverage hash cache
 ---
 # teacher-coverage hash cache
 
-The cache behind `scripts/analysis/teacher_coverage/` in OpenThoughts-Agent:
+The cache behind the teacher-coverage analysis for OpenThoughts-Agent
+(code and result tables: https://github.com/franziweindel/otagent-teacher-coverage):
 which teacher models have trajectories for which agentic tasks, across the
 datagen accounts on the Hub (DCAgent, DCAgent2, mlfoundations-dev, laion,
 marin-community, open-thoughts, ...). Tasks are identified by the SHA-1 of
@@ -76,8 +77,10 @@ repo's own label (`main`, `summarization-k-summary` / `-answers` for the
 agent's segments around its k-th context reset, or a dataset label); the
 2-turn `summarization-k-questions` helper calls are not included.
 
-Use: `python cache_hub.py download --cache <dir>`, then
-`python teacher_coverage.py --cache <dir>` reports from the cache alone.
+Use: clone the repo above, then `python cache_hub.py download --cache <dir>`;
+`python teacher_coverage.py --cache <dir> --cached-only` rebuilds every table
+from the cache alone, and `python overlap_members.py <teacher> <teacher>
+--cache <dir>` lists the tasks and repos behind one table cell.
 """
 
 
